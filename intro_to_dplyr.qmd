@@ -6,6 +6,7 @@ format:
     echo: false
   pptx:
     echo: false
+lightbox: true
 ---
 
 ```{r}
@@ -21,6 +22,8 @@ library(dplyr)
 ```{r}
 data("diamonds")
 ```
+
+# Introduction to filter
 
 ## Link between diamond carat and price
 
@@ -59,3 +62,47 @@ diamonds |>
   ggplot(aes(x=carat,y=price, group=carat)) +
   geom_violin()
 ```
+
+##Using filter {.smaller} Filter is used as follows
+
+```{r}
+#| eval: false
+#| echo: true
+filter(dataframe, expression with a logical value)
+
+```
+
+code keeps the rows of the dataframe for which the logical is true
+
+```{r}
+
+filter( diamonds, price==1000) |>
+  ggplot(aes(y=cut))+
+  geom_bar()
+```
+
+## Multiple logical expressions
+
+::::: (.columns)
+::: {.column width="40%"}
+Filter is used as follows
+
+```{r}
+#| eval: false
+#| echo: true
+filter(dataframe, exp1, exp2, exp3)
+
+```
+
+code keeps the rows of the dataframe for which all expressions are true
+:::
+
+::: {.column width="60%"}
+```{r}
+
+filter( diamonds, price==1000, cut=="Ideal") |>
+  ggplot(aes(y=color))+
+  geom_bar()
+```
+:::
+:::::
