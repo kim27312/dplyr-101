@@ -187,7 +187,6 @@ The result is a dataframe with one column per expression and one row.
 
 ::::: columns
 ::: {.column width="50%"}
-
 An aggregation function computes a statistics (in a broad sense) on a numerical vector for instance:
 
 - `mean`
@@ -195,11 +194,9 @@ An aggregation function computes a statistics (in a broad sense) on a numerical 
 - `sd` : Standard Deviation
 - `var` : Variance
 - `max` and `min`
-
 :::
 
 ::: {.column width="50%"}
-
 ```{r}
 #| echo: true
 
@@ -213,6 +210,105 @@ n_distinct(x)
 length(x)
 
 ```
+:::
+:::::
+
+## Limitations of `summarise`
+
+Summary aggregation functions are mostly limited to numerical values (and to logical ones to some extent). Aggregation functions for non numerical values generally output multiple values.
+
+```{r}
+#| echo: true
+
+y<- c("A", "A", "B", "C", "A", "B", "C", "C", "D")
+
+table(y)
+
+
+```
+
+Examples of errors caused by this:
+
+```{r}
+#| echo: true
+#| eval: false
+diamonds |> pull(cut)
+|> table()
+
+```
+
+```{r}
+#| echo: true
+#| eval: false
+diamonds |> summarise( table(cut))
+
+```
+
+## renaming columns
+
+```{r}
+#| echo: true
+diamonds |> 
+  summarise(mean_price = mean(price), 
+            median_price = median(price), interquartile_price = IQR(price))
+```
+
+# Grouped Operations
+
+## Grouped summaries {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+
+diamonds |> 
+  summarise(mean_price= mean(price), .by =cut )
+```
+:::
+
+::: {.column width="50%"}
+Effects of `.by`
+
+1)  The data frame is split into as many sub data frames as values taken by the `.by` variable
+2)  Apply the aggreagation function to each sub data frame
+3)  Glue together the resulting one row dataframes
+4)  Add a column to identify the sub data frames
+:::
+:::::
+
+## Manual calculation of a value
+
+```{r}
+#| echo: true
+
+diamonds|> 
+  filter(cut=="Ideal") |> summarise( median_price = mean(price))
+```
+
+## Counting stuff
+
+::::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+
+diamonds|> 
+  summarise(counts = n(), .by = cut)
+```
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+
+diamonds|> group_by(cut)|>
+  summarise(counts = n())
+```
 
 :::
 :::::
+
+
+
