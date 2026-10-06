@@ -286,6 +286,28 @@ diamonds|>
   filter(cut=="Ideal") |> summarise( median_price = mean(price))
 ```
 
+## Graphical Investigation
+
+```{r}
+ggplot(diamonds, aes(x=price, colour = cut)) +
+  geom_density(bw= "sj", linewidth = 1, alpha = 0.75)
+```
+
+## Additional Statistics
+
+Statistics summarising the price distribution given the cut
+
+```{r}
+#| echo: true
+
+diamonds |> 
+  summarise(mean_price= mean(price),
+            median_price = median(price),
+            sd=sd(price),
+            IQR(price),
+            .by =cut )
+```
+
 ## Counting stuff
 
 ::::: columns
@@ -306,9 +328,41 @@ diamonds|>
 diamonds|> group_by(cut)|>
   summarise(counts = n())
 ```
+:::
+:::::
+
+## Dependencies {.smaller}
+
+A standard way to assess dependency between numerical values is using Pearson's correlation coefficient: `cor`
+
+::::: columns
+::: {.column width="50%"}
+
+
+```{r}
+diamonds |> summarise(cor(carat, price))
+```
+:::
+
+::: {.column width="50%"}
+
+```{r}
+diamonds |> summarise(cor(carat, price), .by = cut)
+```
 
 :::
 :::::
 
 
 
+## Dependencies (non numerical) {.smaller}
+
+```{r}
+diamonds |> ggplot(aes(x=cut, fill = color))+
+  geom_bar(position = "stack")
+```
+## Dependencies (non numerical) {.smaller}
+```{r}
+diamonds |>
+  summarise(n(),.by=c(cut, color)) |> arrange(cut, color) |> slice(1:5)#firsz 5 rows
+```
