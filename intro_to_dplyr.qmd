@@ -321,7 +321,6 @@ diamonds|>
 :::
 
 ::: {.column width="50%"}
-
 ```{r}
 #| echo: true
 
@@ -364,5 +363,41 @@ diamonds |> ggplot(aes(x=cut, fill = color))+
 ## Dependencies (non numerical) {.smaller}
 ```{r}
 diamonds |>
-  summarise(n(),.by=c(cut, color)) |> arrange(cut, color) |> slice(1:5)#firsz 5 rows
+  summarise(n(),.by=c(cut, color)) |> 
+  slice(1:5) #first 5 rows
 ```
+# operation on columns
+
+## Introduction to mutate
+
+```{r}
+#| echo: true
+#| eval: false
+mutate(dataframe, colname = expression)
+```
+
+```{r}
+diamonds_ppc <- diamonds |> 
+  mutate("price per carat" = price/carat)
+
+```
+
+## Application example
+
+```{r}
+diamonds_ppc |> 
+  summarise(median(`price per carat`), .by = cut) |> 
+  arrange(cut)
+```
+
+## Application example (graphical)
+
+```{r}
+diamonds_ppc|> ggplot(aes(x=`price per carat`, colour = cut)) +
+  geom_density(bw= "sj", linewidth = 1, alpha = 0.75)
+```
+
+
+
+
+
