@@ -109,13 +109,11 @@ filter( diamonds, price==1000, cut=="Ideal") |>
 :::
 :::::
 
-
 # Logical Expressions
 
 ## comparison operators
 
 Everything that compares two values and returns `TRUE`or `FALSE`.
-
 
 ```{r}
 #| echo: true
@@ -131,6 +129,7 @@ x==2
 ## Logical operators
 
 combining true values
+
 ```{r}
 #| echo: true
 TRUE & FALSE
@@ -138,13 +137,12 @@ TRUE | FALSE
 !FALSE
 ```
 
-`&`is and
-`|`is or
-`!`is NOT
+`&`is and `|`is or `!`is NOT
 
 ## Examples
 
 equivalent filter expresions :
+
 ```{r}
 #| echo: true
 #| eval: false
@@ -152,7 +150,9 @@ diamonds |> filter( price==1000, cut=="Ideal")
 diamonds |> filter((price==1000) & ( cut=="Ideal"))
  
 ```
+
 different filter expressions:
+
 ```{r}
 #| echo: true
 #| eval: false
@@ -162,8 +162,57 @@ diamonds |> filter((price==1000) | ( cut=="Ideal"))
  
 ```
 
+# Introduction to `summarise`
+
+## Global Summaries
 
 ```{r}
+#| echo: true
+diamonds |> 
+  summarise(mean(price), 
+            median(price))
+```
+
+`summarise` is used as follows
+
+```{r}
+#| eval: false
+#| echo: true
+summarise(dataframe, expression based on aggregation function)
+```
+
+The result is a dataframe with one column per expression and one row.
+
+## Aggregation functions {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+
+An aggregation function computes a statistics (in a broad sense) on a numerical vector for instance:
+
+- `mean`
+- `median`
+- `sd` : Standard Deviation
+- `var` : Variance
+- `max` and `min`
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+
+x<- c(0.1,1,2, 2, -3, 5)
+
+mean(x)
+median(x)
+sd(x)
+min(x)
+n_distinct(x)
+length(x)
 
 ```
 
+:::
+:::::
