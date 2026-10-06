@@ -106,3 +106,62 @@ filter( diamonds, price==1000, cut=="Ideal") |>
 ```
 :::
 :::::
+
+
+# Logical Expressions
+
+## comparison operators
+
+Everything that compares two values and returns `TRUE`or `FALSE`.
+
+
+```{r}
+#| echo: true
+
+x<- 2
+x>=3
+x<2
+x==2
+
+
+```
+
+## Logical operators
+
+combining true values
+```{r}
+#| echo: true
+TRUE & FALSE
+TRUE | FALSE
+!FALSE
+```
+
+`&`is and
+`|`is or
+`!`is NOT
+
+## Examples
+
+equivalent filter expresions :
+```{r}
+#| echo: true
+#| eval: false
+diamonds |> filter( price==1000, cut=="Ideal")
+diamonds |> filter((price==1000) & ( cut=="Ideal"))
+ 
+```
+different filter expressions:
+```{r}
+#| echo: true
+#| eval: false
+
+diamonds |> filter( price==1000, cut=="Ideal")
+diamonds |> filter((price==1000) | ( cut=="Ideal"))
+ 
+```
+
+
+```{r}
+
+```
+
